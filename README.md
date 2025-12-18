@@ -1,4 +1,4 @@
-🏙️ Unified Citizen Issue Reporting & Tracking Platform
+<h1>🏙️ Unified Citizen Issue Reporting & Tracking Platform</h1>
 
 Theme: Civic Tech, Governance
 Category: Smart Cities / e-Governance
@@ -73,8 +73,3 @@ Geolocation API (Maps integration)
 
 Cloud storage for media uploads (optional)
 
-
-
-Steps
-# Clone the repository
-git clone https://github.com/your-us
