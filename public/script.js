@@ -28,41 +28,179 @@ window.onload = function () {
 
 
 
-// Handle Google Sign-in Response
 
-function handleCredentialResponse(response) {
+
+
+
+async function handleCredentialResponse(response) {
+    const payload = JSON.parse(atob(response.credential.split('.')[1]));
+
+    // 1. Send User Data to MongoDB
+    const userData = {
+        email: payload.email,
+        name: payload.name,
+        picture: payload.picture
+    };
+
     try {
-        // 1. Decode the JWT token from Google
-        const base64Url = response.credential.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
+        const res = await fetch('/api/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userData)
+        });
 
-        const user = JSON.parse(jsonPayload);
-        userEmail = user.email;
-
-        console.log("Login Success for:", userEmail);
-
-        // 2. Hide Login Screen and Show Main App
-        const loginScreen = document.getElementById('login-screen');
-        const mainApp = document.getElementById('app');
-
-        if (loginScreen && mainApp) {
-            loginScreen.classList.add('hidden'); // This hides the blue screen
-            mainApp.classList.remove('hidden');  // This shows the dashboard
-            console.log("Transitioning to main app...");
-            
-            // 3. Load the data now that we are "logged in"
+        if (res.ok) {
+            userEmail = payload.email;
+            // Update UI with user info
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('app').classList.remove('hidden');
+            console.log("User saved to DB and logged in.");
             loadIssues();
-        } else {
-            console.error("Could not find login-screen or app IDs in HTML");
         }
-
-    } catch (error) {
-        console.error("Error handling Google Sign-in:", error);
+    } catch (err) {
+        alert("Login failed to sync with database.");
     }
 }
+
+async function submitIssue() {
+    const title = document.getElementById('title').value;
+    const category = document.getElementById('category').value;
+    const description = document.getElementById('desc').value;
+    const imageFile = document.getElementById('imageInput').files[0];
+
+    // Basic Validation
+    if (!title || !description) {
+        alert("Please fill in the title and description.");
+        return;
+    }
+
+    // Prepare data object
+    const issueData = {
+        title,
+        category,
+        description,
+        location: userCoords || { lat: 0, lng: 0 }, // Default if not tagged
+        reportedBy: userEmail,
+        image: ""
+    };
+
+    // Handle Image if exists
+    if (imageFile) {
+        const reader = new FileReader();
+        reader.readAsDataURL(imageFile);
+        reader.onloadend = async () => {
+            issueData.image = reader.result;
+            sendToDatabase(issueData);
+        };
+    } else {
+        sendToDatabase(issueData);
+    }
+}
+
+async function sendToDatabase(data) {
+    try {
+        const response = await fetch('/api/issues', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            alert("Issue reported successfully!");
+            // Clear form
+            document.getElementById('title').value = "";
+            document.getElementById('desc').value = "";
+            loadIssues();
+        } else {
+            const err = await response.json();
+            alert("Error: " + err.error);
+        }
+    } catch (error) {
+        console.error("Fetch error:", error);
+        alert("Could not connect to server.");
+    }
+}
+
+
+
+
+
+
+
+// Login as admin and citizen tabs logic 
+
+// Tab Switching Logic
+function switchTab(role) {
+    const citizenSection = document.getElementById('citizen-section');
+    const adminSection = document.getElementById('admin-section');
+    const tabs = document.querySelectorAll('.tab-btn');
+
+    if (role === 'citizen') {
+        citizenSection.classList.remove('hidden');
+        adminSection.classList.add('hidden');
+        tabs[0].classList.add('active');
+        tabs[1].classList.remove('active');
+    } else {
+        citizenSection.classList.add('hidden');
+        adminSection.classList.remove('hidden');
+        tabs[1].classList.add('active');
+        tabs[0].classList.remove('active');
+    }
+}
+
+// Admin Login Function
+async function adminLogin() {
+    const user = document.getElementById('adminUser').value;
+    const pass = document.getElementById('adminPass').value;
+
+    const res = await fetch('/api/admin-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user, pass })
+    });
+
+    if (res.ok) {
+        // Redirect to the Admin Dashboard page
+        window.location.href = 'admin.html';
+    } else {
+        alert("Invalid Authority Credentials");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Add a simple Logout function to switch back
 function logout() {
@@ -96,7 +234,7 @@ function getLocation() {
 async function submitIssue() {
     const file = document.getElementById('imageInput').files[0];
     const reader = new FileReader();
-    
+
     reader.onloadend = async () => {
         const issueData = {
             title: document.getElementById('title').value,
@@ -123,7 +261,7 @@ async function loadIssues() {
     const res = await fetch('/api/issues');
     const issues = await res.json();
     const list = document.getElementById('issues-list');
-    
+
     list.innerHTML = issues.map(i => {
         // Color coding for tracking progress
         let statusColor = i.status === 'Resolved' ? '#166534' : (i.status === 'In Progress' ? '#9a3412' : '#991b1b');

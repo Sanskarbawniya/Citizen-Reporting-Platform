@@ -1,23 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Unified Citizen Platform</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
+
 <body>
+
+    <!-- Login Screen with Tabs -->
     <div id="login-screen" class="overlay">
         <div class="login-box">
-            <h1>Citizen Portal</h1>
-            <p>Report issues, Track progress, Build community.</p>
-            <div id="buttonDiv"></div>
+            <h1>Civic Connect</h1>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('citizen')">Citizen</button>
+                <button class="tab-btn" onclick="switchTab('admin')">Authority</button>
+            </div>
+
+            <div id="citizen-section" class="tab-content">
+                <p>Report issues using your Google Account</p>
+                <div id="buttonDiv"></div>
+            </div>
+
+            <!-- Admin Login Section -->
+            <div id="admin-section" class="tab-content hidden">
+                <p>Official Authority Access</p>
+                <input type="text" id="adminUser" placeholder="Admin ID">
+                <input type="password" id="adminPass" placeholder="Password">
+                <button class="login-btn" onclick="adminLogin()">Login as Official</button>
+            </div>
         </div>
     </div>
 
+    <!-- Main App -->
     <div id="app" class="hidden">
         <header>
-            <h2>Citizen Reporting Platform</h2>
+            <h2>Citizen Issue Reporting Platform</h2>
             <button onclick="logout()">Logout</button>
         </header>
 
@@ -37,7 +58,7 @@
                 <input type="file" id="imageInput" accept="image/*">
                 <button id="submit-btn" onclick="submitIssue()">Submit Report</button>
             </section>
-
+            <!-- Feed Section -->
             <section id="feed">
                 <h3>Recent Issues</h3>
                 <div id="issues-list"></div>
@@ -47,4 +68,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
