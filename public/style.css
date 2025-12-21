@@ -1,6 +1,7 @@
 :root {
     --primary: #2563eb;
     --bg: #f8fafc;
+
 }
 
 body {
@@ -30,7 +31,10 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: #2563eb;
+    background-image: url(./assets/backgrounnd2.jpg);
+    background-size: cover;
+    background-position: center;
+    /* background-image: linear-gradient(45deg, #0a1528, #071a43); */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -49,7 +53,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #2563eb;
+    /* background: #2563eb; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,18 +61,52 @@ body {
 }
 
 .login-box {
-    background: white;
+    background: transparent;
     padding: 2rem;
-    border-radius: 12px;
+    border-radius: 40px;
     text-align: center;
+    height: 360px;
+    border: 2px solid antiquewhite;
+    backdrop-filter: brightness(65%);
+}
+
+.login-btn {
+    width: 95%;
+    padding: 10px;
+    background: #071a43;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bolder;
+}
+
+.login-box h1 {
+    color: ghostwhite;
+    color: transparent;
+    -webkit-text-stroke: 1px ghostwhite;
 }
 
 header {
-    background: white;
+    background: #071a43;
+    color: antiquewhite;
     padding: 1rem 5%;
     display: flex;
     justify-content: space-between;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 6px #071a43;
+    align-items: center;
+}
+
+header a {
+    background: antiquewhite;
+    color: #071a43;
+    font-size: large;
+    height: 28px;
+    width: 70px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 10px;
 }
 
 main {
@@ -107,6 +145,11 @@ main {
 
 /* Authority/Admin Styles */
 
+.admin-info {
+    font-family: monospace;
+    font-size: 15px;
+}
+
 .admin-container {
     max-width: 1000px;
     margin: 2rem auto;
@@ -119,7 +162,7 @@ main {
     margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
-    border-radius: 8px;
+    border-radius: 30px;
 }
 
 .admin-actions {
@@ -129,12 +172,16 @@ main {
 }
 
 .admin-actions select {
+    font-family: monospace;
+    width: 115px;
     padding: 8px;
-    border-radius: 4px;
+    border-radius: 20px;
     border: 1px solid #ccc;
 }
 
 .admin-actions textarea {
+    border-style: dashed;
+    border-color: #071a43;
     width: 100%;
     height: 60px;
     margin-top: 10px;
@@ -142,7 +189,7 @@ main {
 }
 
 .admin-actions button {
-    background: #2563eb;
+    background: #071a43;
     color: white;
     border: none;
     padding: 5px 15px;
@@ -168,16 +215,15 @@ main {
     background: none;
     cursor: pointer;
     font-weight: bold;
-    color: #666;
+    color: antiquewhite;
 }
 
-.tab-btn.active {
-    color: #2563eb;
-    border-bottom: 2px solid #2563eb;
-}
+/* .tab-btn.active {
+    
+} */
 
 .tab-content {
-    padding: 20px 0;
+    padding: 50px 0;
 }
 
 .tab-content input {
@@ -188,13 +234,21 @@ main {
     border-radius: 5px;
 }
 
-.login-btn {
-    width: 95%;
-    padding: 10px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
+
+
+
+
+.tab-content p {
+    color: ghostwhite;
+}
+
+/* Google Login Styles */
+
+.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-MJoBVe{
+    backdrop-filter: brightness(0.2);
+}
+
+
+.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{
+    color: ghostwhite;
 }
