@@ -31,7 +31,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url(./assets/backgrounnd2.jpg);
+    background-image: url(./assets/bg.jpg);
     background-size: cover;
     background-position: center;
     /* background-image: linear-gradient(45deg, #0a1528, #071a43); */
@@ -61,6 +61,8 @@ body {
 }
 
 .login-box {
+    
+    backdrop-filter: blur(2px);
     background: transparent;
     padding: 2rem;
     border-radius: 40px;

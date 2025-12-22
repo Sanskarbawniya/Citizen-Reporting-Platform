@@ -18,7 +18,10 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
 // --- 2. Cookies parser ---
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // Or your specific frontend URL
+    credentials: true
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser());
 
@@ -81,7 +84,13 @@ app.post('/api/users', async (req, res) => {
         );
         req.session.userEmail = user.email;
         req.session.role = 'citizen';
-        res.status(200).json(user);
+        req.session.save((err) => {
+            if (err) {
+                console.error("Session save error:", err);
+                return res.status(500).json({ error: "Session sync failed" });
+            }
+            res.status(200).json(user);
+        });
     } catch (err) {
         res.status(500).json({ error: "Sync failed" });
     }
@@ -120,9 +129,13 @@ app.patch('/api/issues/:id', async (req, res) => {
 });
 
 app.post('/api/logout', (req, res) => {
-    req.session.destroy();
-    res.clearCookie('connect.sid');
-    res.json({ message: "Logged out" });
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ error: "Logout failed" });
+        }
+        res.clearCookie('connect.sid'); // This tells the browser to delete the cookie
+        res.json({ message: "Logged out" });
+    });
 });
 
 const PORT = 3000;

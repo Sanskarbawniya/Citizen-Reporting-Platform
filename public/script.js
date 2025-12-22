@@ -1,8 +1,10 @@
 let userEmail = null;
 let userCoords = null;
 
-// Google Login Initialization
+// 1. INITIALIZATION & SESSION CHECK
 window.onload = function () {
+    checkSession(); 
+
     google.accounts.id.initialize({
         client_id: "763920868817-05elg4rfvt9hq7ig88ocj7vaf7o12ccr.apps.googleusercontent.com",
         callback: handleCredentialResponse
@@ -13,29 +15,32 @@ window.onload = function () {
     );
 };
 
+async function checkSession() {
+    try {
+        const res = await fetch('/api/check-session', { credentials: 'include' });
+        const data = await res.json();
 
+        if (data.loggedIn) {
+            userEmail = data.userEmail;
+            // Handle UI if on index.html
+            const loginScreen = document.getElementById('login-screen');
+            const appScreen = document.getElementById('app');
+            
+            if (loginScreen && appScreen) {
+                loginScreen.classList.add('hidden');
+                appScreen.classList.remove('hidden');
+            }
+            console.log("Session restored for:", userEmail);
+            loadIssues();
+        }
+    } catch (err) {
+        console.log("No active session found.");
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// 2. AUTHENTICATION (GOOGLE & ADMIN)
 async function handleCredentialResponse(response) {
     const payload = JSON.parse(atob(response.credential.split('.')[1]));
-
-    // 1. Send User Data to MongoDB
     const userData = {
         email: payload.email,
         name: payload.name,
@@ -46,90 +51,99 @@ async function handleCredentialResponse(response) {
         const res = await fetch('/api/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(userData)
+            body: JSON.stringify(userData),
+            credentials: 'include'
         });
 
         if (res.ok) {
             userEmail = payload.email;
-            // Update UI with user info
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
-            console.log("User saved to DB and logged in.");
             loadIssues();
         }
     } catch (err) {
-        alert("Login failed to sync with database.");
+        alert("Login failed to sync.");
     }
 }
 
+async function adminLogin() {
+    const user = document.getElementById('adminUser').value;
+    const pass = document.getElementById('adminPass').value;
+
+    const res = await fetch('/api/admin-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user, pass }),
+        credentials: 'include'
+    });
+
+    if (res.ok) {
+        window.location.href = 'admin.html';
+    } else {
+        alert("Invalid Authority Credentials");
+    }
+}
+
+async function logout() {
+    try {
+        await fetch('/api/logout', { 
+            method: 'POST', 
+            credentials: 'include' 
+        });
+        // This forces the browser to go back to the main login page
+        window.location.replace('/'); 
+    } catch (err) {
+        window.location.replace('/');
+    }
+}
+
+// 3. ISSUE HANDLING
 async function submitIssue() {
     const title = document.getElementById('title').value;
     const category = document.getElementById('category').value;
     const description = document.getElementById('desc').value;
-    const imageFile = document.getElementById('imageInput').files[0];
+    const file = document.getElementById('imageInput').files[0];
 
-    // Basic Validation
-    if (!title || !description) {
-        alert("Please fill in the title and description.");
+    if (!title || !description || !file) {
+        alert("Please fill all fields and provide a photo.");
         return;
     }
 
-    // Prepare data object
-    const issueData = {
-        title,
-        category,
-        description,
-        location: userCoords || { lat: 0, lng: 0 }, // Default if not tagged
-        reportedBy: userEmail,
-        image: ""
-    };
-
-    // Handle Image if exists
-    if (imageFile) {
-        const reader = new FileReader();
-        reader.readAsDataURL(imageFile);
-        reader.onloadend = async () => {
-            issueData.image = reader.result;
-            sendToDatabase(issueData);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = async () => {
+        const issueData = {
+            title,
+            category,
+            description,
+            location: userCoords || { lat: 0, lng: 0 },
+            image: reader.result,
+            reportedBy: userEmail
         };
-    } else {
-        sendToDatabase(issueData);
-    }
-}
 
-async function sendToDatabase(data) {
-    try {
         const response = await fetch('/api/issues', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            body: JSON.stringify(issueData)
         });
 
         if (response.ok) {
             alert("Issue reported successfully!");
-            // Clear form
             document.getElementById('title').value = "";
             document.getElementById('desc').value = "";
             loadIssues();
-        } else {
-            const err = await response.json();
-            alert("Error: " + err.error);
         }
-    } catch (error) {
-        console.error("Fetch error:", error);
-        alert("Could not connect to server.");
-    }
+    };
 }
 
+// 4. UTILITIES
+function getLocation() {
+    navigator.geolocation.getCurrentPosition(pos => {
+        userCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        document.getElementById('loc-status').innerText = "Location Tagged ✅";
+    });
+}
 
-
-
-
-
-
-// Login as admin and citizen tabs logic 
-
-// Tab Switching Logic
 function switchTab(role) {
     const citizenSection = document.getElementById('citizen-section');
     const adminSection = document.getElementById('admin-section');
@@ -148,122 +162,13 @@ function switchTab(role) {
     }
 }
 
-// Admin Login Function
-async function adminLogin() {
-    const user = document.getElementById('adminUser').value;
-    const pass = document.getElementById('adminPass').value;
-
-    const res = await fetch('/api/admin-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user, pass })
-    });
-
-    if (res.ok) {
-        // Redirect to the Admin Dashboard page
-        window.location.href = 'admin.html';
-    } else {
-        alert("Invalid Authority Credentials");
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Add a simple Logout function to switch back
-function logout() {
-    location.reload(); // Simplest way to reset state for a hackathon
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Geotagging
-function getLocation() {
-    navigator.geolocation.getCurrentPosition(pos => {
-        userCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        document.getElementById('loc-status').innerText = "Location Tagged ✅";
-    });
-}
-
-// Submit Issue
-async function submitIssue() {
-    const file = document.getElementById('imageInput').files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = async () => {
-        const issueData = {
-            title: document.getElementById('title').value,
-            category: document.getElementById('category').value,
-            description: document.getElementById('desc').value,
-            location: userCoords,
-            image: reader.result,
-            reportedBy: userEmail
-        };
-
-        await fetch('/api/issues', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(issueData)
-        });
-        alert("Report Submitted!");
-        loadIssues();
-    };
-    if (file) reader.readAsDataURL(file);
-    else alert("Please attach a photo evidence.");
-}
-
 async function loadIssues() {
     const res = await fetch('/api/issues');
     const issues = await res.json();
     const list = document.getElementById('issues-list');
+    if(!list) return; // Exit if not on the page with the list
 
     list.innerHTML = issues.map(i => {
-        // Color coding for tracking progress
         let statusColor = i.status === 'Resolved' ? '#166534' : (i.status === 'In Progress' ? '#9a3412' : '#991b1b');
         let statusBg = i.status === 'Resolved' ? '#dcfce7' : (i.status === 'In Progress' ? '#ffedd5' : '#fee2e2');
 
