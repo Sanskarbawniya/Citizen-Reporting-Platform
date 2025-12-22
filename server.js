@@ -11,6 +11,7 @@ const Issue = require('./models/Issue');
 const User = require('./models/User');
 
 const app = express();
+app.set('trust proxy', 1);
 
 // --- 1. DATABASE CONNECTION ---
 mongoose.connect(process.env.MONGODB_URI)
@@ -138,5 +139,5 @@ app.post('/api/logout', (req, res) => {
     });
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
