@@ -32,8 +32,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-    client: mongoose.connection.getClient()
-}),
+        client: mongoose.connection.getClient()
+    }),
     cookie: {
         maxAge: 1000 * 60 * 60 * 24, // 1 day
         secure: false // Set to true if using HTTPS/Production
@@ -47,10 +47,10 @@ app.use(express.static('public'));
 // Check if user is logged in (Runs on page refresh)
 app.get('/api/check-session', (req, res) => {
     if (req.session && req.session.userEmail) {
-        res.json({ 
-            loggedIn: true, 
-            userEmail: req.session.userEmail, 
-            role: req.session.role || 'citizen' 
+        res.json({
+            loggedIn: true,
+            userEmail: req.session.userEmail,
+            role: req.session.role || 'citizen'
         });
     } else {
         res.json({ loggedIn: false });
@@ -79,8 +79,8 @@ app.post('/api/users', async (req, res) => {
     try {
         const { email, name, picture } = req.body;
         const user = await User.findOneAndUpdate(
-            { email }, 
-            { name, picture, lastLogin: Date.now() }, 
+            { email },
+            { name, picture, lastLogin: Date.now() },
             { upsert: true, new: true }
         );
         req.session.userEmail = user.email;
