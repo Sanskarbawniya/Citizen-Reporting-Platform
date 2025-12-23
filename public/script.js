@@ -172,7 +172,7 @@ async function submitIssue() {
     };
 }
 
-// 4. UTILITIES for the maps, It will now show the map and try to find the user's current GPS position.
+// 4. UTILITIES for the maps, It will now show the map and try to find the user's current GPS position. 
 function getLocation() {
     const mapDiv = document.getElementById("map");
     mapDiv.style.display = "block"; // Show the map hidden in CSS

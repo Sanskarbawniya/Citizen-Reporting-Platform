@@ -111,6 +111,11 @@ header a {
     border-radius: 10px;
 }
 
+header a:hover {
+    background: #3367D6;
+    color: white;
+}
+
 main {
     padding: 2rem 5%;
     display: grid;
@@ -200,6 +205,9 @@ main {
     margin-top: 5px;
 }
 
+.admin-actions button:hover {
+    background: #3367D6;
+}
 
 /* Tabs and Login Screen */
 
@@ -258,7 +266,7 @@ main {
 /* Map Button Styles */
 .map-btn {
     display: inline-block;
-    background-color: #4285F4; /* Google Blue */
+    background-color: #071a43; /* Google Blue */
     color: white;
     padding: 6px 12px;
     text-decoration: none;
@@ -270,4 +278,53 @@ main {
 
 .map-btn:hover {
     background-color: #3367D6;
+}
+
+
+#report-form textarea {
+    resize: none;
+    min-height: 80px;
+}
+
+#report-form button {
+    background: #071a43;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#report-form button:hover {
+    background: #3367D6;
+}
+#report-form select {
+    padding: 8px;
+    border-radius: 8px;
+}
+#report-form input[type="text"] {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+#report-form textarea {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+#report-form span {
+    font-size: 0.9rem;
+    color: #555;
+}
+#report-form input[type="file"] {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+#map {
+    width: 100%;
+    height: 300px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
 }
