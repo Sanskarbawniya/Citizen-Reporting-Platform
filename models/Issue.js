@@ -6,8 +6,8 @@ const IssueSchema = new mongoose.Schema({
     category: { type: String, required: true },
     // Geotagging data
     location: {
-        lat: Number,
-        lng: Number
+        lat: { type: Number },
+        lng: { type: Number }
     },
     // Image stored as a Base64 string for easy hackathon demo
     image: { type: String }, 
