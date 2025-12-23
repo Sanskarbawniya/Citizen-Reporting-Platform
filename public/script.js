@@ -1,5 +1,41 @@
 let userEmail = null;
 let userCoords = null;
+let map;
+let marker;
+
+// This initializes the map
+function initMap() {
+    // Default location (Center of city or country)
+    const defaultPos = { lat: 20.5937, lng: 78.9629 }; 
+
+    map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 13,
+        center: defaultPos,
+        disableDefaultUI: false,
+    });
+
+    marker = new google.maps.Marker({
+        map: map,
+        draggable: true, // Allows user to drag the pin
+    });
+
+    // Update coordinates when user clicks anywhere on the map
+    map.addListener("click", (event) => {
+        placeMarker(event.latLng);
+    });
+
+    // Update coordinates when user finishes dragging the pin
+    marker.addListener("dragend", (event) => {
+        placeMarker(event.latLng);
+    });
+}
+
+function placeMarker(location) {
+    marker.setPosition(location);
+    userCoords = { lat: location.lat(), lng: location.lng() };
+    document.getElementById('loc-status').innerText = "Location Tagged ✅";
+}
+
 
 // 1. INITIALIZATION & SESSION CHECK
 window.onload = function () {
@@ -136,12 +172,28 @@ async function submitIssue() {
     };
 }
 
-// 4. UTILITIES
+// 4. UTILITIES for the maps, It will now show the map and try to find the user's current GPS position.
 function getLocation() {
-    navigator.geolocation.getCurrentPosition(pos => {
-        userCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        document.getElementById('loc-status').innerText = "Location Tagged ✅";
-    });
+    const mapDiv = document.getElementById("map");
+    mapDiv.style.display = "block"; // Show the map hidden in CSS
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
+                map.setCenter(pos);
+                placeMarker(new google.maps.LatLng(pos.lat, pos.lng));
+            },
+            () => {
+                alert("Error: The Geolocation service failed.");
+            }
+        );
+    } else {
+        alert("Error: Your browser doesn't support geolocation.");
+    }
 }
 
 function switchTab(role) {
