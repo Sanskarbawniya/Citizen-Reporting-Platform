@@ -47,6 +47,7 @@ Secure user login/signup
 Role-based access (Citizen / Authority / Admin)
 
 <b>🛠️ Tech Stack</b>
+
 Frontend
 
 HTML, CSS, JavaScript
