@@ -3,7 +3,7 @@
 Theme: Civic Tech, Governance
 Category: Smart Cities / e-Governance
 
-📌 Problem Statement
+<b>📌 Problem Statement</b>
 
 Citizens often struggle to report civic issues such as potholes, garbage overflow, streetlight failures, or water leakage due to:
 
@@ -19,7 +19,7 @@ As a result, many civic problems remain unresolved, impacting the quality of urb
 
 The Unified Citizen Issue Reporting & Tracking Platform <b>(CIVIC CONNECT)</b> is a centralized digital solution that enables citizens to easily report civic issues and track their resolution in real time. The platform also empowers authorities with efficient tools to manage, prioritize, and resolve complaints transparently.
 
-🎯 Key Features
+<b>🎯 Key Features</b>
 👥 Citizen Portal
 
 📝 Report civic issues with title, description, and category
@@ -40,19 +40,13 @@ The Unified Citizen Issue Reporting & Tracking Platform <b>(CIVIC CONNECT)</b> i
 
 🗂️ Filter & sort complaints by category, date, and status
 
-👨‍💼 Assign tasks to departments or officials
-
-📈 Analytics & performance insights
-
 🔐 Authentication & Security
 
 Secure user login/signup
 
 Role-based access (Citizen / Authority / Admin)
 
-Data integrity and privacy protection
-
-🛠️ Tech Stack
+<b>🛠️ Tech Stack</b>
 Frontend
 
 HTML, CSS, JavaScript
@@ -69,7 +63,7 @@ MongoDB (with Mongoose)
 
 APIs & Tools
 
-Geolocation API (Maps integration)
+Google Maps Geolocation API (Maps integration)
 
-Cloud storage for media uploads (optional)
+Google OAuth Client (Google Authentication)
 
