@@ -17,7 +17,7 @@ As a result, many civic problems remain unresolved, impacting the quality of urb
 
 💡 Solution Overview
 
-The Unified Citizen Issue Reporting & Tracking Platform is a centralized digital solution that enables citizens to easily report civic issues and track their resolution in real time. The platform also empowers authorities with efficient tools to manage, prioritize, and resolve complaints transparently.
+The Unified Citizen Issue Reporting & Tracking Platform <b>(CIVIC CONNECT)</b> is a centralized digital solution that enables citizens to easily report civic issues and track their resolution in real time. The platform also empowers authorities with efficient tools to manage, prioritize, and resolve complaints transparently.
 
 🎯 Key Features
 👥 Citizen Portal
