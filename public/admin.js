@@ -1,4 +1,5 @@
-// Admin Page JS - public/admin.js (prevents citizen from accessing admin page)
+
+// Admin Authentication Check
 window.onload = async function () {
     try {
         const response = await fetch('/api/check-session');
@@ -33,7 +34,7 @@ async function loadAdminIssues() {
 
     list.innerHTML = issues.map(i => {
         // Create the Google Maps Link if coordinates exist
-        const mapLink = (i.location && i.location.lat && i.location.lng) 
+        const mapLink = (i.location && i.location.lat && i.location.lng)
             ? `<a href="https://www.google.com/maps?q=${i.location.lat},${i.location.lng}" 
                   target="_blank" class="map-btn">📍 View Exact Location</a>`
             : `<span style="color: gray;">📍 No location tagged</span>`;
@@ -64,8 +65,11 @@ async function loadAdminIssues() {
                 <button onclick="saveComment('${i._id}')">Save Comment</button>
             </div>
         </div>
-    `;}).join('');
+    `;
+    }).join('');
 }
+
+// Update issue status
 
 async function updateStatus(id, newStatus) {
     await fetch(`/api/issues/${id}`, {
@@ -75,7 +79,7 @@ async function updateStatus(id, newStatus) {
     });
     alert("Status Updated!");
 }
-
+// Save admin comment
 async function saveComment(id) {
     const comment = document.getElementById(`comment-${id}`).value;
     await fetch(`/api/issues/${id}`, {

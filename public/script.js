@@ -5,7 +5,7 @@ let marker;
 
 // This initializes the map
 function initMap() {
-    // Default location (Center of city or country)
+    // Default location
     const defaultPos = { lat: 20.5937, lng: 78.9629 }; 
 
     map = new google.maps.Map(document.getElementById("map"), {
@@ -16,7 +16,7 @@ function initMap() {
 
     marker = new google.maps.Marker({
         map: map,
-        draggable: true, // Allows user to drag the pin
+        draggable: true, // Allows user to drag the pin/pointer
     });
 
     // Update coordinates when user clicks anywhere on the map
@@ -58,7 +58,7 @@ async function checkSession() {
 
         if (data.loggedIn) {
             userEmail = data.userEmail;
-            // Handle UI if on index.html
+            
             const loginScreen = document.getElementById('login-screen');
             const appScreen = document.getElementById('app');
             
@@ -126,7 +126,7 @@ async function logout() {
             method: 'POST', 
             credentials: 'include' 
         });
-        // This forces the browser to go back to the main login page
+        // This Takes the browser to go back to the main login page
         window.location.replace('/'); 
     } catch (err) {
         window.location.replace('/');
@@ -172,10 +172,10 @@ async function submitIssue() {
     };
 }
 
-// 4. UTILITIES for the maps, It will now show the map and try to find the user's current GPS position. 
+// 4. UTILITIES FOR THE MAP, It will now show the map and try to find the user's current GPS position. 
 function getLocation() {
     const mapDiv = document.getElementById("map");
-    mapDiv.style.display = "block"; // Show the map hidden in CSS
+    mapDiv.style.display = "block";
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -218,7 +218,7 @@ async function loadIssues() {
     const res = await fetch('/api/issues');
     const issues = await res.json();
     const list = document.getElementById('issues-list');
-    if(!list) return; // Exit if not on the page with the list
+    if(!list) return; 
 
     list.innerHTML = issues.map(i => {
         let statusColor = i.status === 'Resolved' ? '#166534' : (i.status === 'In Progress' ? '#9a3412' : '#991b1b');

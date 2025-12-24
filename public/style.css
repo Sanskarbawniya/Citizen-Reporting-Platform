@@ -13,15 +13,13 @@ body {
 
 
 
-
-/* Add this or ensure it looks like this */
+/* Hidden elements */
 .hidden {
     display: none !important;
 }
 
 #app {
     display: block;
-    /* Default when not hidden */
 }
 
 #app button {
@@ -38,7 +36,8 @@ body {
     background: antiquewhite;
     color: #071a43;
 }
-/* Ensure the login screen covers everything */
+
+/* Login Screen */
 #login-screen {
     position: fixed;
     top: 0;
@@ -53,7 +52,6 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    /* High z-index to stay on top */
 }
 
 
@@ -241,9 +239,6 @@ main {
     color: antiquewhite;
 }
 
-/* .tab-btn.active {
-    
-} */
 
 .tab-content {
     padding: 17px 0;
@@ -279,7 +274,7 @@ main {
 /* Map Button Styles */
 .map-btn {
     display: inline-block;
-    background-color: #071a43; /* Google Blue */
+    background-color: #071a43; 
     color: white;
     padding: 6px 12px;
     text-decoration: none;

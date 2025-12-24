@@ -55,17 +55,16 @@
                 <textarea id="desc" placeholder="Describe the problem..."></textarea>
                 <button onclick="getLocation()">📍 Tag Location</button>
 
-
+                <!-- Map Container -->
                 <div id="map" style="height: 300px; width: 100%; margin-top: 10px; display: none; border-radius: 8px;">
                 </div>
 
-                
-                
                 <span id="loc-status">Location not tagged</span>
                 <input type="file" id="imageInput" accept="image/*">
                 <button id="submit-btn" onclick="submitIssue()">Submit Report</button>
             </section>
-            <!-- Feed Section -->
+
+            <!-- Recent Issues Feed Section -->
             <section id="feed">
                 <h3>Recent Issues</h3>
                 <div id="issues-list"></div>
@@ -74,8 +73,9 @@
     </div>
 
     <script src="script.js"></script>
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg5NcO4_VEk0v3PwrqI0are0w1PsiXfV4&callback=initMap"
+
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg5NcO4_VEk0v3PwrqI0are0w1PsiXfV4&callback=initMap"
         async defer></script>
 </body>
 

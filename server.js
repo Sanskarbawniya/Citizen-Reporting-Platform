@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
-const MongoStore = require('connect-mongo').default; // Ensure this is the latest version
+const MongoStore = require('connect-mongo').default;
 const cookieParser = require('cookie-parser');
 
 // Import Models
@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // --- 2. Cookies parser ---
 app.use(cors({
-    origin: 'http://localhost:3000', // Or your specific frontend URL
+    origin: 'http://localhost:3000',
     credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
@@ -35,8 +35,8 @@ app.use(session({
         client: mongoose.connection.getClient()
     }),
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24, // 1 day
-        secure: false // Set to true if using HTTPS/Production
+        maxAge: 1000 * 60 * 60 * 24,
+        secure: false 
     }
 }));
 
@@ -65,7 +65,7 @@ app.post('/api/admin-login', (req, res) => {
     if (user === process.env.ADMIN_EMAIL && pass === process.env.ADMIN_PASSWORD) {
         req.session.role = 'admin';
         req.session.userEmail = user;
-        req.session.save((err) => { // Force save session to MongoDB
+        req.session.save((err) => { 
             if (err) return res.status(500).json({ error: "Session save failed" });
             res.status(200).json({ message: "Success" });
         });
@@ -134,7 +134,7 @@ app.post('/api/logout', (req, res) => {
         if (err) {
             return res.status(500).json({ error: "Logout failed" });
         }
-        res.clearCookie('connect.sid'); // This tells the browser to delete the cookie
+        res.clearCookie('connect.sid');
         res.json({ message: "Logged out" });
     });
 });

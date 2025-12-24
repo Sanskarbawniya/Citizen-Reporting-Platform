@@ -9,7 +9,7 @@ const IssueSchema = new mongoose.Schema({
         lat: { type: Number },
         lng: { type: Number }
     },
-    // Image stored as a Base64 string for easy hackathon demo
+    // Image stored
     image: { type: String }, 
     // Status tracking: Pending -> In Progress -> Resolved
     status: { 
