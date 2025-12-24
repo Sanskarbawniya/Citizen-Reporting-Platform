@@ -60,7 +60,7 @@ Express.js
 
 Database
 
-MongoDB (with Mongoose)
+MongoDB-ATLAS
 
 APIs & Tools
 
