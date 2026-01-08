@@ -1,0 +1,66 @@
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
+<style>
+    body {
+        background: black;
+    }
+</style>
+
+
+<nav class="glass-nav">
+    <div class="logo">CIVIC-CONNECT <span>// ASTEROIDS</span></div>
+    <div class="nav-right">
+        <span class="status-pulse"></span>
+        <span class="system-text">SYSTEM ACTIVE</span>
+        <button onclick="logout()" class="logout-pill">Logout ⏻</button>
+    </div>
+</nav>
+<main class="hero-container">
+    <section class="citizen-hub-grid">
+        <div class="citizen-hub-card">
+            <div class="hero-text"></div>
+            <div class="hub-header">
+                <h3>Citizen Hub</h3>
+            </div>
+
+            <div class="user-profile">
+                <div class="avatar">👤</div>
+                <div class="user-info">
+                    <p class="welcome-label">✨Welcome,</p>
+                    <p class="name-highlight" id="display-name" style="position: relative; bottom: 18px;">Sanskar Bawniya</p>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-neon blue" onclick="window.location.href='index.html?mode=report'">
+                    <span class="btn-icon">+</span> Report New Issue <span class="search-icon">🔍</span>
+                </button>
+
+                <button class="btn-neon green" onclick="window.location.href='status.html'">
+                    <span class="btn-icon">★</span> Track My Reports <span class="search-icon">🔍</span>
+                </button>
+            </div>
+
+            <div class="hub-footer">
+                <p>Theme: Civic Tech & Governance</p>
+            </div>
+        </div>
+
+        <div class="stats-card">
+            <div class="hub-header">
+                <h3>City Pulse: Real-time Analytics</h3>
+            </div>
+            <div class="stat-item">
+                <p class="stat-label">📡 Active Reports:</p>
+                <p class="stat-value"></p>
+            </div>
+            <div class="stat-item">
+                <p class="stat-label">✅ Avg. Resolution:</p>
+                <p class="stat-value green-text"></p>
+            </div>
+            <div class="footer-branding">
+                <p></p>
+            </div>
+        </div>
+    </section>
+</main>

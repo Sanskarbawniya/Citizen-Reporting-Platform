@@ -59,20 +59,28 @@ async function checkSession() {
         if (data.loggedIn) {
             userEmail = data.userEmail;
             
+            // Add this check: If they are on the login page, move them to home
+            if(window.location.pathname === '/' || window.location.pathname === '/index.html') {
+                // Only redirect to home if a specific mode isn't requested
+                const urlParams = new URLSearchParams(window.location.search);
+                if (!urlParams.has('mode')) {
+                    window.location.href = 'home.html';
+                    return;
+                }
+            }
+            
+            // Keep your existing hidden toggle logic here...
             const loginScreen = document.getElementById('login-screen');
             const appScreen = document.getElementById('app');
-            
             if (loginScreen && appScreen) {
                 loginScreen.classList.add('hidden');
                 appScreen.classList.remove('hidden');
             }
-            console.log("Session restored for:", userEmail);
             loadIssues();
         }
-    } catch (err) {
-        console.log("No active session found.");
-    }
+    } catch (err) { console.log("Session check failed"); }
 }
+
 
 // 2. AUTHENTICATION (GOOGLE & ADMIN)
 async function handleCredentialResponse(response) {
@@ -93,6 +101,7 @@ async function handleCredentialResponse(response) {
 
         if (res.ok) {
             userEmail = payload.email;
+            window.location.href = "home.html";
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
             loadIssues();
@@ -126,6 +135,7 @@ async function logout() {
             method: 'POST', 
             credentials: 'include' 
         });
+        userEmail = null;
         // This Takes the browser to go back to the main login page
         window.location.replace('/'); 
     } catch (err) {

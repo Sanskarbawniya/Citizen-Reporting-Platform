@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Reports | Civic Connect</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="home-bg">
+    <nav>
+        <h2 onclick="window.location.href='home.html'" style="cursor:pointer">Civic Connect</h2>
+        <button onclick="logout()">Logout</button>
+    </nav>
+
+    <div class="status-container">
+        <h1>My Reported Issues</h1>
+        <p>Track the progress of your submissions below.</p>
+        
+        <div id="user-issues-list" class="issues-grid">
+            </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Load only issues reported by the current user
+        window.onload = async () => {
+            const session = await fetch('/api/check-session').then(res => res.json());
+            if (!session.loggedIn) {
+                window.location.href = 'index.html';
+                return;
+            }
+            loadUserIssues(session.userEmail);
+        };
+
+        async function loadUserIssues(email) {
+            const res = await fetch('/api/issues');
+            const allIssues = await res.json();
+            const userIssues = allIssues.filter(i => i.reportedBy === email);
+            
+            const list = document.getElementById('user-issues-list');
+            if (userIssues.length === 0) {
+                list.innerHTML = "<p>You haven't reported any issues yet.</p>";
+                return;
+            }
+
+            list.innerHTML = userIssues.map(i => {
+                let statusClass = i.status.replace(/\s+/g, '-').toLowerCase();
+                return `
+                    <div class="issue-card">
+                        <span class="status-tag ${statusClass}">${i.status}</span>
+                        <h4>${i.title}</h4>
+                        <p>${i.description}</p>
+                        <div class="meta">
+                            <small>📅 Filed: ${new Date(i.createdAt).toLocaleDateString()}</small>
+                        </div>
+                        ${i.adminComments ? `<div class="admin-note"><strong>Update:</strong> ${i.adminComments}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+</html>

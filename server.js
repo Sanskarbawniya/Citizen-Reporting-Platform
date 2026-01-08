@@ -129,6 +129,8 @@ app.patch('/api/issues/:id', async (req, res) => {
     }
 });
 
+// Logout route
+
 app.post('/api/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {

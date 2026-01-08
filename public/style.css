@@ -1,6 +1,6 @@
 :root {
     --primary: #2563eb;
-    --bg: #f8fafc;
+    --bg: white;
 
 }
 
@@ -262,19 +262,19 @@ main {
 
 /* Google Login Styles */
 
-.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-MJoBVe{
+.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-MJoBVe {
     backdrop-filter: brightness(0.2);
 }
 
 
-.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{
+.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-BPrWId {
     color: ghostwhite;
 }
 
 /* Map Button Styles */
 .map-btn {
     display: inline-block;
-    background-color: #071a43; 
+    background-color: #071a43;
     color: white;
     padding: 6px 12px;
     text-decoration: none;
@@ -308,28 +308,34 @@ main {
 #report-form button:hover {
     background: #3367D6;
 }
+
 #report-form select {
     padding: 8px;
     border-radius: 8px;
 }
+
 #report-form input[type="text"] {
     padding: 8px;
     border-radius: 8px;
     border: 1px solid #ccc;
 }
+
 #report-form textarea {
     padding: 8px;
     border-radius: 8px;
     border: 1px solid #ccc;
 }
+
 #report-form span {
     font-size: 0.9rem;
     color: #555;
 }
+
 #report-form input[type="file"] {
     border-radius: 8px;
     border: 1px solid #ccc;
 }
+
 #map {
     width: 100%;
     height: 300px;
@@ -338,3 +344,241 @@ main {
     border: 1px solid #ccc;
 }
 
+
+/* Home Page Styles */
+
+/* Navigation Bar */
+
+
+.glass-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    background: rgba(15, 23, 42, 0.7); /* Deep dark blue with transparency */
+    backdrop-filter: blur(15px) saturate(180%); /* Strong glassmorphism effect */
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* 2. Logo Styling */
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.logo span {
+    color: #3b82f6;
+    font-weight: 400;
+    font-size: 0.9rem;
+    margin-left: 5px;
+}
+
+/* 3. Navigation Right Section (Status & Logout) */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #94a3b8;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* 4. "System Active" Status Pulse */
+.status-pulse {
+    height: 10px;
+    width: 10px;
+    background-color: #10b981; /* Emerald Green */
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 10px #10b981;
+    animation: pulse-glow 2s infinite;
+    margin-right: 5px;
+}
+
+@keyframes pulse-glow {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* 5. The Logout Pill Button */
+.logout-pill {
+    background: rgba(239, 68, 68, 0.1); /* Subtle red tint */
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #f87171;
+    padding: 8px 22px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logout-pill:hover {
+    background: #ef4444; /* Solid red on hover */
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+    transform: translateY(-2px);
+    border-color: #ef4444;
+}
+
+.logout-pill:active {
+    transform: scale(0.95);
+}
+
+
+
+/* Layout for the Hub Grid */
+.citizen-hub-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px;
+}
+
+/* The Citizen Hub Card Styling */
+.citizen-hub-card, .stats-card {
+    color: white;
+    background: #0f172a;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 0px 30px 10px;
+    width: 400px;
+    text-align: left;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.hub-header h3 {
+    font-size: 1.2rem;
+    color: #cbd5e1;
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+
+/* User Profile Section */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.avatar {
+    font-size: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 50%;
+}
+
+.welcome-label { color: #94a3b8; font-size: 0.9rem; }
+.name-highlight { font-size: 1.3rem; font-weight: 600; color: #fff; }
+
+/* The Image-Style Neon Buttons */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.btn-neon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 25px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+}
+
+/* Blue Button (Reporting) */
+.btn-neon.blue {
+    background: linear-gradient(90deg, #1e3a8a, #1d4ed8);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+    border: 1px solid #3b82f6;
+}
+
+/* Green Button (Tracking) */
+.btn-neon.green {
+    background: linear-gradient(90deg, #064e3b, #059669);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    border: 1px solid #10b981;
+}
+
+.btn-neon:hover {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+}
+
+.btn-icon { font-size: 1.2rem; }
+.search-icon { opacity: 0.6; font-size: 0.8rem; }
+
+/* Footer Labels */
+.hub-footer, .footer-branding {
+    margin-top: 40px;
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.green-text { color: #10b981; font-weight: bold; }
+
+
+
+
+/* Status Page Styles */
+
+.status-container {
+    padding: 40px;
+    color: white;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.status-tag {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Status Colors */
+.status-tag.pending {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status-tag.in-progress {
+    background: #ffedd5;
+    color: #9a3412;
+}
+
+.status-tag.resolved {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.admin-note {
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(59, 130, 246, 0.1);
+    border-left: 4px solid #3b82f6;
+    font-size: 0.9rem;
+}
